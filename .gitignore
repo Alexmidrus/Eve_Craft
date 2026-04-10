@@ -1,17 +1,41 @@
 .venv/
+.venv*/
 .venv_home/
 venv/
+venv*/
 env/
+env*/
+.python-version
+
 runtime/
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.log
 
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
+*.py,cover
 
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+build/
+dist/
+site/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
 
 .idea/
 .vscode/
