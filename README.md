@@ -1,4 +1,4 @@
-# IPH2
+# Eve Craft
 
 Проект хранится в папке, которая синхронизируется через Яндекс.Диск. Поэтому виртуальное окружение Python не нужно хранить внутри проекта и не нужно переносить между устройствами.
 
@@ -14,8 +14,8 @@
 
 Примеры:
 
-- Windows: `C:\Users\<имя>\.venvs\IPH2`
-- macOS: `~/.venvs/IPH2`
+- Windows: `C:\Users\<имя>\.venvs\eve_craft`
+- macOS: `~/.venvs/eve_craft`
 
 Это защищает проект от проблем с абсолютными путями, разными ОС и сломанными launcher-файлами.
 
@@ -30,13 +30,13 @@ py -0p
 Создайте окружение:
 
 ```powershell
-py -3.13 -m venv $HOME\.venvs\IPH2
+py -3.13 -m venv $HOME\.venvs\eve_craft
 ```
 
 Активируйте его:
 
 ```powershell
-$HOME\.venvs\IPH2\Scripts\Activate.ps1
+$HOME\.venvs\eve_craft\Scripts\Activate.ps1
 ```
 
 Установите зависимости проекта:
@@ -63,13 +63,13 @@ python3.13 --version
 Создайте окружение:
 
 ```bash
-python3.13 -m venv ~/.venvs/IPH2
+python3.13 -m venv ~/.venvs/eve_craft
 ```
 
 Активируйте его:
 
 ```bash
-source ~/.venvs/IPH2/bin/activate
+source ~/.venvs/eve_craft/bin/activate
 ```
 
 Установите зависимости проекта:
@@ -92,3 +92,4 @@ pip install -r requirements.txt
 Если проект был перенесен в другую папку, открыт на другом ПК или после обновления Python появились ошибки вида `Unable to create process`, просто удалите локальное окружение и создайте его заново на текущем устройстве.
 
 Важно: удалять нужно только локальное окружение, а не файлы проекта.
+

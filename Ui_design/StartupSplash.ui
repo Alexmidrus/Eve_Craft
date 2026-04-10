@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>IPH2 Startup</string>
+   <string>Eve Craft Startup</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -32,7 +32,7 @@
    <item>
     <widget class="QLabel" name="titleLabel">
      <property name="text">
-      <string>IPH2</string>
+      <string>Eve Craft</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -81,3 +81,4 @@
  <resources/>
  <connections/>
 </ui>
+

@@ -5,8 +5,8 @@ import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 
-from iph2.platform.sde.application.synchronizer import SdeSynchronizer
-from iph2.platform.sde.domain.models import InstalledSdeVersion, SdeRemoteVersion
+from eve_craft.platform.sde.application.synchronizer import SdeSynchronizer
+from eve_craft.platform.sde.domain.models import InstalledSdeVersion, SdeRemoteVersion
 
 
 class FakeRepository:
@@ -79,3 +79,4 @@ class SdeSynchronizerTests(unittest.TestCase):
 
             with self.assertRaises(RuntimeError):
                 synchronizer.ensure_ready(lambda _progress: None)
+

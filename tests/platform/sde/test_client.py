@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from iph2.platform.sde.infrastructure.client import EveStaticDataClient
+from eve_craft.platform.sde.infrastructure.client import EveStaticDataClient
 
 
 class EveStaticDataClientTests(unittest.TestCase):
@@ -63,3 +63,4 @@ class EveStaticDataClientTests(unittest.TestCase):
                 last_reported_bytes=1024,
             )
         )
+

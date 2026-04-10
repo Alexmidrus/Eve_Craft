@@ -9,8 +9,8 @@ from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 
-from iph2.platform.sde.domain.models import SdeRemoteVersion
-from iph2.platform.sde.infrastructure.importer import SdeImporter
+from eve_craft.platform.sde.domain.models import SdeRemoteVersion
+from eve_craft.platform.sde.infrastructure.importer import SdeImporter
 
 
 def _jsonl_bytes(rows: list[dict]) -> bytes:
@@ -417,3 +417,4 @@ class SdeImporterTests(unittest.TestCase):
                         """
                     ).fetchone()[0],
                 )
+

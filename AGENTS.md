@@ -23,7 +23,7 @@ The project is divided into four main areas:
 All new code should be added under the target structure below:
 
 ```text
-src/iph2/
+src/eve_craft/
   app/
   shared/
   platform/
@@ -252,3 +252,4 @@ Examples:
 - add a public module API instead of importing internal infrastructure across modules
 
 Any architecture-changing decision should update this file so future tasks follow the same direction.
+

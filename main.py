@@ -15,10 +15,11 @@ def _add_src_to_path() -> None:
 def main() -> int:
     _add_src_to_path()
 
-    from iph2.main import main as app_main
+    from eve_craft.main import main as app_main
 
     return app_main()
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

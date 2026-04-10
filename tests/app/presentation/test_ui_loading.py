@@ -7,10 +7,10 @@ try:
 except ImportError:  # pragma: no cover - dependency gate
     QApplication = None
 
-from iph2.app.config import load_app_config
-from iph2.app.presentation.ui_loader import load_dialog, load_ui_widget
-from iph2.platform.sde.domain.models import SdeStatus
-from iph2.platform.sde.presentation.dialog import SdeUpdateDialogController
+from eve_craft.app.config import load_app_config
+from eve_craft.app.presentation.ui_loader import load_dialog, load_ui_widget
+from eve_craft.platform.sde.domain.models import SdeStatus
+from eve_craft.platform.sde.presentation.dialog import SdeUpdateDialogController
 
 
 class _FakeSdeService:
@@ -50,3 +50,4 @@ class UiLoadingTests(unittest.TestCase):
 
         self.assertTrue(controller.dialog.isWindow())
         self.assertEqual(parent, controller.dialog.parentWidget())
+
