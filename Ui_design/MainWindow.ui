@@ -19,6 +19,11 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+    </font>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
      <number>0</number>
@@ -124,12 +129,12 @@ QTabWidget::pane {
      <x>0</x>
      <y>0</y>
      <width>1052</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Agency FB</family>
+     <family>Segoe UI</family>
     </font>
    </property>
    <widget class="QMenu" name="menuCharacter">
@@ -146,16 +151,8 @@ QTabWidget::pane {
     <addaction name="actionESI_Status"/>
     <addaction name="actionView_Log"/>
    </widget>
-   <widget class="QMenu" name="menuSettings">
-    <property name="title">
-     <string>Settings</string>
-    </property>
-    <addaction name="actionAssets_profile"/>
-    <addaction name="actionIndustry_profile"/>
-   </widget>
    <addaction name="menuCharacter"/>
    <addaction name="menuData"/>
-   <addaction name="menuSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionManage_character">

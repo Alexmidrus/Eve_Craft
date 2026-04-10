@@ -1,0 +1,2 @@
+"""Industry application layer."""
+
