@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from iph2.shared.paths import default_user_data_dir, package_root, project_root, src_root
+from iph2.shared.paths import package_root, project_root, src_root
 
 
 @dataclass(frozen=True, slots=True)
@@ -11,12 +11,18 @@ class AppPaths:
     project_root: Path
     src_root: Path
     package_root: Path
+    runtime_dir: Path
+    databases_dir: Path
+    downloads_dir: Path
+    temporary_dir: Path
     ui_design_dir: Path
     main_window_ui: Path
+    startup_splash_ui: Path
+    sde_update_dialog_ui: Path
     icon_file: Path
-    user_data_dir: Path
     logs_dir: Path
-    database_path: Path
+    app_database_path: Path
+    sde_database_path: Path
     settings_path: Path
 
 
@@ -29,23 +35,33 @@ class AppConfig:
 
 def load_app_config() -> AppConfig:
     app_name = "IPH2"
-    user_data_dir = default_user_data_dir(app_name)
-    logs_dir = user_data_dir / "logs"
+    root = project_root()
+    runtime_dir = root / "runtime"
+    databases_dir = runtime_dir / "databases"
+    downloads_dir = runtime_dir / "downloads"
+    temporary_dir = runtime_dir / "tmp"
+    logs_dir = runtime_dir / "logs"
 
-    user_data_dir.mkdir(parents=True, exist_ok=True)
-    logs_dir.mkdir(parents=True, exist_ok=True)
+    for path in (runtime_dir, databases_dir, downloads_dir, temporary_dir, logs_dir):
+        path.mkdir(parents=True, exist_ok=True)
 
     paths = AppPaths(
-        project_root=project_root(),
+        project_root=root,
         src_root=src_root(),
         package_root=package_root(),
-        ui_design_dir=project_root() / "Ui_design",
-        main_window_ui=project_root() / "Ui_design" / "MainWindow.ui",
-        icon_file=project_root() / "Ui_design" / "industry.svg",
-        user_data_dir=user_data_dir,
+        runtime_dir=runtime_dir,
+        databases_dir=databases_dir,
+        downloads_dir=downloads_dir,
+        temporary_dir=temporary_dir,
+        ui_design_dir=root / "Ui_design",
+        main_window_ui=root / "Ui_design" / "MainWindow.ui",
+        startup_splash_ui=root / "Ui_design" / "StartupSplash.ui",
+        sde_update_dialog_ui=root / "Ui_design" / "SdeUpdateDialog.ui",
+        icon_file=root / "Ui_design" / "industry.svg",
         logs_dir=logs_dir,
-        database_path=user_data_dir / "iph2.sqlite3",
-        settings_path=user_data_dir / "settings.json",
+        app_database_path=databases_dir / "app.sqlite3",
+        sde_database_path=databases_dir / "sde.sqlite3",
+        settings_path=runtime_dir / "settings.json",
     )
     return AppConfig(
         application_name=app_name,

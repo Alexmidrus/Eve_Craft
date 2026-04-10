@@ -1,2 +1,1 @@
-"""SDE integration services."""
-
+"""Static data export (SDE) integration."""

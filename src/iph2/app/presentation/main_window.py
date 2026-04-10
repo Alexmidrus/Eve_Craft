@@ -1,24 +1,23 @@
 from __future__ import annotations
 
-from pathlib import Path
-
-from PySide6.QtCore import QFile, QFileInfo, QIODevice
 from PySide6.QtGui import QAction, QIcon
-from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QTabWidget
 
 from iph2.app.config import AppConfig
 from iph2.app.container import AppContainer
 from iph2.app.navigation import MainTabNavigator
+from iph2.app.presentation.ui_loader import load_main_window
+from iph2.platform.sde.presentation.dialog import SdeUpdateDialogController
 
 
 class MainWindowShell:
     def __init__(self, config: AppConfig, container: AppContainer) -> None:
         self._config = config
         self._container = container
-        self.window = self._load_window(config.paths.main_window_ui)
+        self.window = load_main_window(config.paths.main_window_ui)
         self._tab_widget = self._find_required_tab_widget("tabWidget")
         self._navigator = MainTabNavigator(self._tab_widget)
+        self._sde_dialog: SdeUpdateDialogController | None = None
 
         self._register_module_tabs()
         self._configure_window()
@@ -28,27 +27,6 @@ class MainWindowShell:
 
     def show(self) -> None:
         self.window.show()
-
-    def _load_window(self, ui_path: Path) -> QMainWindow:
-        if not ui_path.exists():
-            raise FileNotFoundError(f"Main window UI file was not found: {ui_path}")
-
-        loader = QUiLoader()
-        loader.setWorkingDirectory(QFileInfo(str(ui_path)).dir())
-
-        ui_file = QFile(str(ui_path))
-        if not ui_file.open(QIODevice.OpenModeFlag.ReadOnly):
-            raise RuntimeError(f"Unable to open UI file: {ui_path}")
-
-        try:
-            loaded_window = loader.load(ui_file)
-        finally:
-            ui_file.close()
-
-        if loaded_window is None or not isinstance(loaded_window, QMainWindow):
-            raise RuntimeError("The main UI file did not produce a QMainWindow instance.")
-
-        return loaded_window
 
     def _register_module_tabs(self) -> None:
         for module in self._container.module_registry.feature_modules():
@@ -83,7 +61,14 @@ class MainWindowShell:
         self._show_info("Character", self._container.characters.describe_management())
 
     def _open_sde_center(self) -> None:
-        self._show_info("SDE", self._container.sde.describe_status())
+        if self._sde_dialog is None:
+            self._sde_dialog = SdeUpdateDialogController(
+                config=self._config,
+                sde_service=self._container.sde,
+                parent=self.window,
+            )
+
+        self._sde_dialog.show()
 
     def _open_esi_status(self) -> None:
         self._show_info("ESI", self._container.esi.describe_status())

@@ -106,10 +106,6 @@ QTabWidget::pane {
        <bool>false</bool>
       </property>
       <widget class="QWidget" name="Industry">
-       <attribute name="icon">
-        <iconset resource="Icon.qrc">
-         <normaloff>:/Icon/industry.svg</normaloff>:/Icon/industry.svg</iconset>
-       </attribute>
        <attribute name="title">
         <string>Industry</string>
        </attribute>
@@ -189,8 +185,6 @@ QTabWidget::pane {
    </property>
   </action>
  </widget>
- <resources>
-  <include location="Icon.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
