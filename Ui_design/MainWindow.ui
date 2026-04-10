@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1052</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>JetBrainsMono Nerd Font</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="styleSheet">
+       <string notr="true">/* Стили для самих вкладок */
+QTabBar::tab {
+    background-color: #f0f0f0;
+    color: #333333;
+    font-family: &quot;Segoe UI&quot;, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 5px; /* Отступы внутри вкладки */
+    min-width: 10px;
+    border: 1px solid #cccccc;
+    border-top-left-radius: 2px; /* Скругление углов */
+    border-bottom-left-radius: 2px;
+}
+
+/* Стиль при наведении мыши */
+QTabBar::tab:hover {
+    background-color: #e0e0e0;
+}
+
+/* Стиль активной (выбранной) вкладки */
+QTabBar::tab:selected {
+    background-color: #ffffff;
+    color: #0078d7; /* Синий текст */
+    border-right-color: #ffffff; /* Убираем правую рамку, чтобы сливалось с фоном */
+}
+
+/* Фон области с контентом */
+QTabWidget::pane {
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
+}</string>
+      </property>
+      <property name="tabPosition">
+       <enum>QTabWidget::TabPosition::West</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::TabShape::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::TextElideMode::ElideNone</enum>
+      </property>
+      <property name="usesScrollButtons">
+       <bool>false</bool>
+      </property>
+      <property name="documentMode">
+       <bool>false</bool>
+      </property>
+      <property name="movable">
+       <bool>false</bool>
+      </property>
+      <property name="tabBarAutoHide">
+       <bool>false</bool>
+      </property>
+      <widget class="QWidget" name="Industry">
+       <attribute name="icon">
+        <iconset resource="Icon.qrc">
+         <normaloff>:/Icon/industry.svg</normaloff>:/Icon/industry.svg</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Industry</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="Market">
+       <attribute name="title">
+        <string>Market</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1052</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+    </font>
+   </property>
+   <widget class="QMenu" name="menuCharacter">
+    <property name="title">
+     <string>Character</string>
+    </property>
+    <addaction name="actionManage_character"/>
+   </widget>
+   <widget class="QMenu" name="menuData">
+    <property name="title">
+     <string>Data</string>
+    </property>
+    <addaction name="actionSDE"/>
+    <addaction name="actionESI_Status"/>
+    <addaction name="actionView_Log"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionAssets_profile"/>
+    <addaction name="actionIndustry_profile"/>
+   </widget>
+   <addaction name="menuCharacter"/>
+   <addaction name="menuData"/>
+   <addaction name="menuSettings"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionManage_character">
+   <property name="text">
+    <string>Manage character</string>
+   </property>
+  </action>
+  <action name="actionSDE">
+   <property name="text">
+    <string>SDE</string>
+   </property>
+  </action>
+  <action name="actionESI_Status">
+   <property name="text">
+    <string>ESI-Status</string>
+   </property>
+  </action>
+  <action name="actionView_Log">
+   <property name="text">
+    <string>View Log</string>
+   </property>
+  </action>
+  <action name="actionAssets_profile">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Assets profile</string>
+   </property>
+  </action>
+  <action name="actionIndustry_profile">
+   <property name="text">
+    <string>Industry profile</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="Icon.qrc"/>
+ </resources>
+ <connections/>
+</ui>
