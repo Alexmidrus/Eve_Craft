@@ -66,6 +66,11 @@ python -m unittest discover -s tests -v
 python -m unittest tests.platform.sde.test_synchronizer -v
 ```
 
+## Документация
+
+- Описание работы модуля SDE: [docs/sde.md](docs/sde.md)
+- Инструкция по виртуальному окружению: [docs/virtualenv.md](docs/virtualenv.md)
+
 ## Виртуальное окружение
 
-Краткая инструкция по созданию и активации локального окружения вынесена отдельно: [docs/virtualenv.md](docs/virtualenv.md).
+Краткая инструкция по созданию и активации локального окружения вынесена в раздел документации выше.
