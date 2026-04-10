@@ -1,3 +1,5 @@
+"""HTTP client for resolving and downloading SDE builds."""
+
 from __future__ import annotations
 
 import json
@@ -13,12 +15,16 @@ LOGGER = logging.getLogger(__name__)
 
 
 class EveStaticDataClient:
+    """Talk to the official SDE endpoints and stream archives to disk."""
+
     _UNKNOWN_SIZE_REPORT_STEP = 1024 * 1024 * 5
 
     def __init__(self, timeout_seconds: int = 30) -> None:
         self._timeout_seconds = timeout_seconds
 
     def fetch_latest_version(self) -> SdeRemoteVersion:
+        """Resolve the latest published SDE build and archive metadata."""
+
         metadata_url = "https://developers.eveonline.com/static-data/tranquility/latest.jsonl"
         request = urllib.request.Request(metadata_url, headers=self._headers())
         with urllib.request.urlopen(request, timeout=self._timeout_seconds) as response:
@@ -42,6 +48,8 @@ class EveStaticDataClient:
         destination: Path,
         report_progress,
     ) -> Path:
+        """Download the requested archive and emit coarse-grained progress updates."""
+
         destination.parent.mkdir(parents=True, exist_ok=True)
         request = urllib.request.Request(version.archive_url, headers=self._headers())
 
@@ -71,6 +79,7 @@ class EveStaticDataClient:
                         last_reported_percent=last_reported_percent,
                         last_reported_bytes=last_reported_bytes,
                     ):
+                        # Progress is intentionally rate-limited to avoid flooding the UI thread.
                         report_progress(
                             OperationProgress(
                                 stage="sde_download",
@@ -87,6 +96,8 @@ class EveStaticDataClient:
         return destination
 
     def _head_archive(self, build_number: int) -> tuple[str | None, str | None]:
+        """Read optional caching headers for the archive without downloading it."""
+
         archive_url = (
             "https://developers.eveonline.com/static-data/tranquility/"
             f"eve-online-static-data-{build_number}-jsonl.zip"
@@ -106,10 +117,14 @@ class EveStaticDataClient:
 
     @staticmethod
     def _headers() -> dict[str, str]:
+        """Return the shared request headers used for SDE endpoints."""
+
         return {"User-Agent": "Eve-Craft-SDE-Client/1.0"}
 
     @staticmethod
     def _parse_content_length(value: str | None) -> int | None:
+        """Safely parse the optional content length response header."""
+
         if value is None:
             return None
 
@@ -127,6 +142,8 @@ class EveStaticDataClient:
         last_reported_percent: int | None,
         last_reported_bytes: int,
     ) -> bool:
+        """Decide when the next progress event is meaningful enough to emit."""
+
         if total_size is not None and total_size > 0:
             return percent != last_reported_percent or downloaded >= total_size
 

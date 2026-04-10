@@ -1,3 +1,5 @@
+"""Persistence adapter for the activated local SDE database."""
+
 from __future__ import annotations
 
 import logging
@@ -15,14 +17,20 @@ LOGGER = logging.getLogger(__name__)
 
 
 class SdeMetadataRepository:
+    """Read and promote the local SDE SQLite catalog used by the application."""
+
     def __init__(self, database_path: Path) -> None:
         self._database_path = database_path
 
     @property
     def database_path(self) -> Path:
+        """Return the current target path for the activated SDE database."""
+
         return self._database_path
 
     def read_installed_version(self) -> InstalledSdeVersion | None:
+        """Read the installed SDE build metadata from the active database, if available."""
+
         if not self._database_path.exists():
             return None
 
@@ -33,6 +41,7 @@ class SdeMetadataRepository:
                 return None
 
             with database.create_session() as session:
+                # The catalog contains a single metadata row describing the imported build.
                 row = session.scalar(select(SdeCatalogInfo).limit(1))
                 if row is None:
                     return None
@@ -52,12 +61,16 @@ class SdeMetadataRepository:
             database.dispose()
 
     def activate_database(self, imported_database_path: Path) -> Path:
+        """Atomically replace the active SDE catalog with a freshly imported database."""
+
         self._database_path.parent.mkdir(parents=True, exist_ok=True)
         os.replace(imported_database_path, self._database_path)
         LOGGER.info("Activated SDE database %s.", self._database_path)
         return self._database_path
 
     def imported_at(self) -> datetime | None:
+        """Return the import timestamp of the installed catalog, if present."""
+
         installed = self.read_installed_version()
         if installed is None:
             return None

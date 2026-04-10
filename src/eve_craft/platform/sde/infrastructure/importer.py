@@ -1,3 +1,5 @@
+"""Import the official SDE JSONL archive into the local SQLite catalog."""
+
 from __future__ import annotations
 
 import logging
@@ -55,6 +57,9 @@ ImportHandler = tuple[str, str]
 
 
 class SdeImporter:
+    """Convert a downloaded SDE archive into a ready-to-activate SQLite database."""
+
+    # The import order mirrors the dependency graph between reference datasets.
     IMPORT_SEQUENCE: tuple[ImportHandler, ...] = (
         ("categories.jsonl", "import_categories"),
         ("groups.jsonl", "import_groups"),
@@ -86,6 +91,8 @@ class SdeImporter:
         version: SdeRemoteVersion,
         report_progress,
     ) -> Path:
+        """Create and populate a temporary SQLite database for the provided archive."""
+
         self._temporary_dir.mkdir(parents=True, exist_ok=True)
         temp_database_path = self._temporary_dir / f"sde_build_{version.build_number}.sqlite3"
 
@@ -101,6 +108,7 @@ class SdeImporter:
                     total_steps = len(self.IMPORT_SEQUENCE)
 
                     for step_index, (file_name, handler_name) in enumerate(self.IMPORT_SEQUENCE, start=1):
+                        # Progress is reported per source file because row counts vary too much for fine estimates.
                         step_percent = int((step_index - 1) * 100 / total_steps)
                         report_progress(
                             OperationProgress(
@@ -635,6 +643,8 @@ class SdeImporter:
         return inserted
 
     def _validate_archive_contents(self, archive: zipfile.ZipFile) -> None:
+        """Fail fast when a downloaded archive is missing required datasets."""
+
         available = set(archive.namelist())
         required = {file_name for file_name, _handler_name in self.IMPORT_SEQUENCE}
         missing = sorted(required - available)
@@ -649,6 +659,8 @@ class SdeImporter:
         rows: Iterable[dict[str, Any]],
         chunk_size: int = 1000,
     ) -> int:
+        """Insert rows in chunks to keep memory usage and SQL payloads predictable."""
+
         inserted = 0
         chunk: list[dict[str, Any]] = []
 

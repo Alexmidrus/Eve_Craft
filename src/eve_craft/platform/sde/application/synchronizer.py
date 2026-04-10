@@ -1,3 +1,5 @@
+"""Application workflow that keeps the local SDE database current."""
+
 from __future__ import annotations
 
 import logging
@@ -15,6 +17,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class SdeSynchronizer:
+    """Coordinate local SDE status checks, downloads, imports, and activation."""
+
     def __init__(
         self,
         repository: SdeMetadataRepository,
@@ -28,6 +32,8 @@ class SdeSynchronizer:
         self._downloads_dir = downloads_dir
 
     def get_status(self, refresh_remote: bool) -> SdeStatus:
+        """Build a status snapshot from the installed build and optional remote metadata."""
+
         installed = self._repository.read_installed_version()
         latest = self._client.fetch_latest_version() if refresh_remote else None
         update_available = bool(installed and latest and latest.build_number > installed.build_number)
@@ -42,6 +48,8 @@ class SdeSynchronizer:
         )
 
     def ensure_ready(self, report_progress: Callable[[OperationProgress], None]) -> SdeSyncResult:
+        """Guarantee a usable local catalog or fail fast when none can be prepared."""
+
         installed = self._repository.read_installed_version()
         report_progress(
             OperationProgress(
@@ -58,6 +66,7 @@ class SdeSynchronizer:
             if installed is None:
                 raise RuntimeError("Unable to fetch the latest SDE version and no local SDE is installed.") from exc
 
+            # Startup may continue with the previously activated catalog when the network is unavailable.
             LOGGER.exception("Unable to fetch remote SDE metadata; continuing with the local build.")
             warning = "Unable to check the latest SDE version. Continuing with the installed local build."
             return SdeSyncResult(
@@ -100,6 +109,7 @@ class SdeSynchronizer:
             if installed is None:
                 raise
 
+            # A failed refresh should not brick the app if an older catalog is still usable.
             LOGGER.exception("SDE update failed; continuing with the installed build.")
             warning = "SDE update failed. Continuing with the previously installed build."
             return SdeSyncResult(
@@ -121,6 +131,8 @@ class SdeSynchronizer:
         force: bool,
         latest_override=None,
     ) -> SdeSyncResult:
+        """Download, import, and activate the target SDE build."""
+
         installed = self._repository.read_installed_version()
         latest = latest_override or self._client.fetch_latest_version()
 
@@ -162,6 +174,7 @@ class SdeSynchronizer:
                     f"Downloaded archive build {archive_build} does not match the expected build {latest.build_number}."
                 )
 
+            # Import into a temporary database first so the active catalog is replaced only after success.
             temp_database_path = self._importer.import_archive(
                 archive_path=archive_path,
                 version=latest,
@@ -191,6 +204,7 @@ class SdeSynchronizer:
                 database_path=activated_path,
             )
         finally:
+            # Both the archive and temporary database are disposable build artifacts.
             if archive_path.exists():
                 archive_path.unlink()
             if temp_database_path is not None and temp_database_path.exists():
@@ -202,6 +216,8 @@ class SdeSynchronizer:
         start_percent: int,
         end_percent: int,
     ) -> Callable[[OperationProgress], None]:
+        """Map child task progress into a dedicated range of the parent operation."""
+
         def adapter(progress: OperationProgress) -> None:
             percent = progress.clamp_percent()
             mapped = None
@@ -226,6 +242,8 @@ class SdeSynchronizer:
         latest,
         update_available: bool,
     ) -> str:
+        """Translate synchronization state into a UI-friendly status message."""
+
         if installed is None and latest is None:
             return "SDE is not installed."
         if installed is None and latest is not None:
@@ -238,6 +256,8 @@ class SdeSynchronizer:
 
     @staticmethod
     def _describe_installed(installed: InstalledSdeVersion | None) -> str:
+        """Describe the currently activated local build for progress reporting."""
+
         if installed is None:
             return "No local SDE database was found."
 

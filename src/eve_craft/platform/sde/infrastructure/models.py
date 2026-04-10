@@ -1,3 +1,5 @@
+"""SQLAlchemy schema for the locally imported SDE catalog."""
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -7,10 +9,16 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
 class SdeBase(DeclarativeBase):
+    """Base class for all tables in the SDE SQLite catalog."""
+
     pass
 
 
+# Catalog metadata -------------------------------------------------------------------------------
+
 class SdeCatalogInfo(SdeBase):
+    """Single-row metadata table describing the currently imported SDE build."""
+
     __tablename__ = "sde_catalog_info"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
@@ -22,7 +30,11 @@ class SdeCatalogInfo(SdeBase):
     archive_last_modified: Mapped[str | None] = mapped_column(String(255))
 
 
+# Market taxonomy --------------------------------------------------------------------------------
+
 class SdeCategory(SdeBase):
+    """Top-level item category from the SDE type hierarchy."""
+
     __tablename__ = "sde_categories"
 
     category_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -33,6 +45,8 @@ class SdeCategory(SdeBase):
 
 
 class SdeGroup(SdeBase):
+    """Item group nested under an SDE category."""
+
     __tablename__ = "sde_groups"
 
     group_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -48,6 +62,8 @@ class SdeGroup(SdeBase):
 
 
 class SdeMarketGroup(SdeBase):
+    """Market tree grouping used for browsing and filtering published types."""
+
     __tablename__ = "sde_market_groups"
 
     market_group_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -61,6 +77,8 @@ class SdeMarketGroup(SdeBase):
 
 
 class SdeMetaGroup(SdeBase):
+    """Meta group classification such as Tech I or faction variants."""
+
     __tablename__ = "sde_meta_groups"
 
     meta_group_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -75,7 +93,11 @@ class SdeMetaGroup(SdeBase):
     color_b: Mapped[float | None] = mapped_column(Float)
 
 
+# Types and dogma --------------------------------------------------------------------------------
+
 class SdeType(SdeBase):
+    """Core catalog entity describing an item type in EVE."""
+
     __tablename__ = "sde_types"
 
     type_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -102,6 +124,8 @@ class SdeType(SdeBase):
 
 
 class SdeDogmaUnit(SdeBase):
+    """Unit lookup table for dogma attributes."""
+
     __tablename__ = "sde_dogma_units"
 
     unit_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -113,6 +137,8 @@ class SdeDogmaUnit(SdeBase):
 
 
 class SdeDogmaAttribute(SdeBase):
+    """Dogma attribute metadata keyed by attribute identifier."""
+
     __tablename__ = "sde_dogma_attributes"
 
     attribute_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -137,6 +163,8 @@ class SdeDogmaAttribute(SdeBase):
 
 
 class SdeDogmaEffect(SdeBase):
+    """Dogma effect metadata keyed by effect identifier."""
+
     __tablename__ = "sde_dogma_effects"
 
     effect_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -168,6 +196,8 @@ class SdeDogmaEffect(SdeBase):
 
 
 class SdeTypeDogmaAttribute(SdeBase):
+    """Many-to-many mapping between item types and dogma attribute values."""
+
     __tablename__ = "sde_type_dogma_attributes"
 
     type_id: Mapped[int] = mapped_column(ForeignKey("sde_types.type_id"), primary_key=True)
@@ -179,6 +209,8 @@ class SdeTypeDogmaAttribute(SdeBase):
 
 
 class SdeTypeDogmaEffect(SdeBase):
+    """Many-to-many mapping between item types and dogma effects."""
+
     __tablename__ = "sde_type_dogma_effects"
 
     type_id: Mapped[int] = mapped_column(ForeignKey("sde_types.type_id"), primary_key=True)
@@ -189,7 +221,11 @@ class SdeTypeDogmaEffect(SdeBase):
     is_default: Mapped[bool] = mapped_column(Boolean, nullable=False)
 
 
+# Industry and material relationships ------------------------------------------------------------
+
 class SdeBlueprint(SdeBase):
+    """Blueprint header record keyed by blueprint type identifier."""
+
     __tablename__ = "sde_blueprints"
 
     blueprint_type_id: Mapped[int] = mapped_column(
@@ -200,6 +236,8 @@ class SdeBlueprint(SdeBase):
 
 
 class SdeBlueprintActivity(SdeBase):
+    """Activity metadata for a blueprint, such as manufacturing or copying."""
+
     __tablename__ = "sde_blueprint_activities"
 
     blueprint_type_id: Mapped[int] = mapped_column(
@@ -211,6 +249,8 @@ class SdeBlueprintActivity(SdeBase):
 
 
 class SdeBlueprintActivityMaterial(SdeBase):
+    """Input materials required by a blueprint activity."""
+
     __tablename__ = "sde_blueprint_activity_materials"
 
     blueprint_type_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -220,6 +260,8 @@ class SdeBlueprintActivityMaterial(SdeBase):
 
 
 class SdeBlueprintActivityProduct(SdeBase):
+    """Products yielded by a blueprint activity."""
+
     __tablename__ = "sde_blueprint_activity_products"
 
     blueprint_type_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -230,6 +272,8 @@ class SdeBlueprintActivityProduct(SdeBase):
 
 
 class SdeBlueprintActivitySkill(SdeBase):
+    """Skill requirements attached to a blueprint activity."""
+
     __tablename__ = "sde_blueprint_activity_skills"
 
     blueprint_type_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -239,6 +283,8 @@ class SdeBlueprintActivitySkill(SdeBase):
 
 
 class SdeTypeReprocessingMaterial(SdeBase):
+    """Deterministic material outputs for type reprocessing."""
+
     __tablename__ = "sde_type_reprocessing_materials"
 
     type_id: Mapped[int] = mapped_column(ForeignKey("sde_types.type_id"), primary_key=True)
@@ -247,6 +293,8 @@ class SdeTypeReprocessingMaterial(SdeBase):
 
 
 class SdeTypeRandomizedReprocessingMaterial(SdeBase):
+    """Randomized material ranges used by special reprocessing rules."""
+
     __tablename__ = "sde_type_randomized_reprocessing_materials"
 
     type_id: Mapped[int] = mapped_column(ForeignKey("sde_types.type_id"), primary_key=True)
@@ -256,13 +304,19 @@ class SdeTypeRandomizedReprocessingMaterial(SdeBase):
 
 
 class SdeCompressibleType(SdeBase):
+    """Mapping between an uncompressed type and its compressed counterpart."""
+
     __tablename__ = "sde_compressible_types"
 
     type_id: Mapped[int] = mapped_column(ForeignKey("sde_types.type_id"), primary_key=True)
     compressed_type_id: Mapped[int] = mapped_column(ForeignKey("sde_types.type_id"), nullable=False)
 
 
+# Planetary industry -----------------------------------------------------------------------------
+
 class SdePlanetSchematic(SdeBase):
+    """Planetary industry schematic definition."""
+
     __tablename__ = "sde_planet_schematics"
 
     schematic_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -272,6 +326,8 @@ class SdePlanetSchematic(SdeBase):
 
 
 class SdePlanetSchematicType(SdeBase):
+    """Input or output types associated with a planetary schematic."""
+
     __tablename__ = "sde_planet_schematic_types"
 
     schematic_id: Mapped[int] = mapped_column(
@@ -283,7 +339,11 @@ class SdePlanetSchematicType(SdeBase):
     is_input: Mapped[bool] = mapped_column(Boolean, nullable=False)
 
 
+# Universe geography -----------------------------------------------------------------------------
+
 class SdeRegion(SdeBase):
+    """Top-level location entry for the EVE universe map."""
+
     __tablename__ = "sde_regions"
 
     region_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -300,6 +360,8 @@ class SdeRegion(SdeBase):
 
 
 class SdeConstellation(SdeBase):
+    """Constellation record nested under a region."""
+
     __tablename__ = "sde_constellations"
 
     constellation_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -314,6 +376,8 @@ class SdeConstellation(SdeBase):
 
 
 class SdeSolarSystem(SdeBase):
+    """Solar system record used by location-aware features."""
+
     __tablename__ = "sde_solar_systems"
 
     solar_system_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -341,7 +405,11 @@ class SdeSolarSystem(SdeBase):
     regional: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
 
 
+# NPC stations and corporations ------------------------------------------------------------------
+
 class SdeNpcCorporation(SdeBase):
+    """NPC corporation metadata referenced by stations and ownership data."""
+
     __tablename__ = "sde_npc_corporations"
 
     corporation_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -361,6 +429,8 @@ class SdeNpcCorporation(SdeBase):
 
 
 class SdeStationOperation(SdeBase):
+    """Station operation profile with industry-related factors."""
+
     __tablename__ = "sde_station_operations"
 
     operation_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -379,6 +449,8 @@ class SdeStationOperation(SdeBase):
 
 
 class SdeNpcStation(SdeBase):
+    """NPC station location and operation metadata."""
+
     __tablename__ = "sde_npc_stations"
 
     station_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -401,6 +473,7 @@ class SdeNpcStation(SdeBase):
     use_operation_name: Mapped[bool | None] = mapped_column(Boolean)
 
 
+# Lookup indexes used by common joins and reverse searches. --------------------------------------
 Index("ix_sde_blueprint_activities_type", SdeBlueprintActivity.blueprint_type_id, SdeBlueprintActivity.activity_type)
 Index("ix_sde_blueprint_products_lookup", SdeBlueprintActivityProduct.product_type_id, SdeBlueprintActivityProduct.activity_type)
 Index("ix_sde_reprocessing_materials_lookup", SdeTypeReprocessingMaterial.material_type_id)
