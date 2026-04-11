@@ -13,6 +13,7 @@ runtime/
 *.db
 *.db-journal
 *.log
+*.png
 
 __pycache__/
 *.py[cod]
@@ -39,6 +40,7 @@ pip-wheel-metadata/
 
 .idea/
 .vscode/
+.devdbrc
 
 .DS_Store
 Thumbs.db

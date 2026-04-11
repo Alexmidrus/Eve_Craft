@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmManageAccounts</class>
+ <widget class="QWidget" name="frmManageAccounts">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1080</width>
+    <height>430</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Manage Accounts</string>
+  </property>
+  <widget class="QCheckBox" name="chkFactoryManager">
+   <property name="geometry">
+    <rect>
+     <x>725</x>
+     <y>233</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Factory Manager Role</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkDirector">
+   <property name="geometry">
+    <rect>
+     <x>618</x>
+     <y>233</y>
+     <width>88</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Director Role</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnRefreshToken">
+   <property name="geometry">
+    <rect>
+     <x>607</x>
+     <y>391</y>
+     <width>122</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Refresh Token Data</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="gbAccountData">
+   <property name="geometry">
+    <rect>
+     <x>612</x>
+     <y>249</y>
+     <width>458</width>
+     <height>133</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string />
+   </property>
+   <widget class="QPushButton" name="btnCopyCorpID">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>56</y>
+      <width>116</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy Corporation ID</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblCorpID">
+    <property name="geometry">
+     <rect>
+      <x>247</x>
+      <y>61</y>
+      <width>78</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Corporation ID:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtCorpID">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>77</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string />
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblCharacterID">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>61</y>
+      <width>70</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Character ID:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtCharacterID">
+    <property name="geometry">
+     <rect>
+      <x>163</x>
+      <y>77</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string />
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnCopyCharacterID">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>79</y>
+      <width>116</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy Character ID</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnCopyAccesToken">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>33</y>
+      <width>116</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy Acces Token</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnCopyAll">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>102</y>
+      <width>116</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy Token Data</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Label1">
+    <property name="geometry">
+     <rect>
+      <x>3</x>
+      <y>106</y>
+      <width>154</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Access Token Expiration Date:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblRefreshToken">
+    <property name="geometry">
+     <rect>
+      <x>3</x>
+      <y>61</y>
+      <width>81</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refresh Token:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblAccessToken">
+    <property name="geometry">
+     <rect>
+      <x>3</x>
+      <y>16</y>
+      <width>79</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Access Token:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtRefreshToken">
+    <property name="geometry">
+     <rect>
+      <x>6</x>
+      <y>77</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string />
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtAccessTokenExpDate">
+    <property name="geometry">
+     <rect>
+      <x>163</x>
+      <y>103</y>
+      <width>167</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string />
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtAccessToken">
+    <property name="geometry">
+     <rect>
+      <x>6</x>
+      <y>34</y>
+      <width>324</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string />
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QTreeWidget" name="lstScopes">
+   <property name="geometry">
+    <rect>
+     <x>612</x>
+     <y>12</y>
+     <width>458</width>
+     <height>215</height>
+    </rect>
+   </property>
+   <property name="columnCount">
+    <number>1</number>
+   </property>
+   <property name="headerHidden">
+    <bool>true</bool>
+   </property>
+   <column>
+    <property name="text">
+     <string>lstScopes</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="btnSelectDefaultChar">
+   <property name="geometry">
+    <rect>
+     <x>479</x>
+     <y>391</y>
+     <width>122</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Set Default Character</string>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnAddCharacter">
+   <property name="geometry">
+    <rect>
+     <x>223</x>
+     <y>391</y>
+     <width>122</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add Character</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnDeleteCharacter">
+   <property name="geometry">
+    <rect>
+     <x>351</x>
+     <y>391</y>
+     <width>122</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Delete Character</string>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnClose">
+   <property name="geometry">
+    <rect>
+     <x>735</x>
+     <y>391</y>
+     <width>122</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </widget>
+  <widget class="QTreeWidget" name="lstAccounts">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>12</y>
+     <width>594</width>
+     <height>370</height>
+    </rect>
+   </property>
+   <property name="columnCount">
+    <number>1</number>
+   </property>
+   <property name="headerHidden">
+    <bool>true</bool>
+   </property>
+   <column>
+    <property name="text">
+     <string>lstAccounts</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources />
+ <connections />
+</ui>

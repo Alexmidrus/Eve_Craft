@@ -31,6 +31,12 @@ class SdeSynchronizer:
         self._importer = importer
         self._downloads_dir = downloads_dir
 
+    @property
+    def database_path(self) -> Path:
+        """Expose the active SDE database path for higher-level coordinators."""
+
+        return self._repository.database_path
+
     def get_status(self, refresh_remote: bool) -> SdeStatus:
         """Build a status snapshot from the installed build and optional remote metadata."""
 

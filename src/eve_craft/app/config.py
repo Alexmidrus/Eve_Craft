@@ -12,6 +12,8 @@ class AppPaths:
     src_root: Path
     package_root: Path
     runtime_dir: Path
+    resources_dir: Path
+    sde_resources_dir: Path
     databases_dir: Path
     downloads_dir: Path
     temporary_dir: Path
@@ -23,6 +25,7 @@ class AppPaths:
     logs_dir: Path
     app_database_path: Path
     sde_database_path: Path
+    types_images_dir: Path
     settings_path: Path
 
 
@@ -37,12 +40,14 @@ def load_app_config() -> AppConfig:
     app_name = "Eve Craft"
     root = project_root()
     runtime_dir = root / "runtime"
+    resources_dir = runtime_dir / "resources"
+    sde_resources_dir = resources_dir / "sde"
     databases_dir = runtime_dir / "databases"
     downloads_dir = runtime_dir / "downloads"
     temporary_dir = runtime_dir / "tmp"
     logs_dir = runtime_dir / "logs"
 
-    for path in (runtime_dir, databases_dir, downloads_dir, temporary_dir, logs_dir):
+    for path in (runtime_dir, resources_dir, sde_resources_dir, databases_dir, downloads_dir, temporary_dir, logs_dir):
         path.mkdir(parents=True, exist_ok=True)
 
     paths = AppPaths(
@@ -50,6 +55,8 @@ def load_app_config() -> AppConfig:
         src_root=src_root(),
         package_root=package_root(),
         runtime_dir=runtime_dir,
+        resources_dir=resources_dir,
+        sde_resources_dir=sde_resources_dir,
         databases_dir=databases_dir,
         downloads_dir=downloads_dir,
         temporary_dir=temporary_dir,
@@ -61,6 +68,7 @@ def load_app_config() -> AppConfig:
         logs_dir=logs_dir,
         app_database_path=databases_dir / "app.sqlite3",
         sde_database_path=databases_dir / "sde.sqlite3",
+        types_images_dir=sde_resources_dir / "types",
         settings_path=runtime_dir / "settings.json",
     )
     return AppConfig(

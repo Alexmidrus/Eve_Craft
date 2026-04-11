@@ -50,20 +50,20 @@ pip install -r requirements.txt
 python main.py
 ```
 
-При первом старте приложение создаст папку `runtime/` и локальные базы SQLite. Если SDE еще не подготовлен, стартовый сценарий сможет инициализировать или обновить его.
+При первом старте приложение создаст папку `runtime/`, локальные базы SQLite и ресурсный каталог. Если SDE-ресурсы еще не подготовлены, стартовый сценарий сможет инициализировать или обновить и базу SDE, и локальный набор `IEC Types`-изображений.
 
 ## Запуск тестов
 
 Полный прогон тестов:
 
 ```powershell
-python -m unittest discover -s tests -v
+py -3.13 -m unittest discover -s tests -t . -v
 ```
 
 Запуск отдельного тестового модуля:
 
 ```powershell
-python -m unittest tests.platform.sde.test_synchronizer -v
+py -3.13 -m unittest tests.platform.sde.test_synchronizer -v
 ```
 
 ## Документация
