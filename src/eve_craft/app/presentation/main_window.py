@@ -7,6 +7,7 @@ from eve_craft.app.config import AppConfig
 from eve_craft.app.container import AppContainer
 from eve_craft.app.navigation import MainTabNavigator
 from eve_craft.app.presentation.ui_loader import load_main_window
+from eve_craft.platform.characters.presentation.windows import ManageAccountsWindowController
 from eve_craft.platform.sde.presentation.dialog import SdeUpdateDialogController
 
 
@@ -17,6 +18,7 @@ class MainWindowShell:
         self.window = load_main_window(config.paths.main_window_ui)
         self._tab_widget = self._find_required_tab_widget("tabWidget")
         self._navigator = MainTabNavigator(self._tab_widget)
+        self._character_management_window: ManageAccountsWindowController | None = None
         self._sde_dialog: SdeUpdateDialogController | None = None
 
         self._register_module_tabs()
@@ -58,7 +60,14 @@ class MainWindowShell:
         self.window.statusBar().showMessage(f"Ready. Active module: {tab_name}")
 
     def _open_character_management(self) -> None:
-        self._show_info("Character", self._container.characters.describe_management())
+        if self._character_management_window is None:
+            self._character_management_window = ManageAccountsWindowController(
+                config=self._config,
+                parent=self.window,
+            )
+
+        self._character_management_window.show()
+        self.window.statusBar().showMessage("Character management opened.", 4000)
 
     def _open_sde_center(self) -> None:
         if self._sde_dialog is None:

@@ -107,19 +107,22 @@ class TypeImageCollectionRepository:
     def has_any_images(self) -> bool:
         """Return whether the resource directory contains at least one type image."""
 
-        return self._count_image_files() > 0
+        return next(self._iter_image_files(), None) is not None
 
     def _count_image_files(self) -> int:
         """Count the imported type images currently present in the resource directory."""
 
-        if not self._resource_dir.exists():
-            return 0
+        return sum(1 for _path in self._iter_image_files())
 
-        return sum(
-            1
-            for path in self._resource_dir.iterdir()
-            if path.is_file() and path.name.endswith(self._IMAGE_SUFFIXES)
-        )
+    def _iter_image_files(self):
+        """Yield image files stored in the active resource directory."""
+
+        if not self._resource_dir.exists():
+            return
+
+        for path in self._resource_dir.iterdir():
+            if path.is_file() and path.name.endswith(self._IMAGE_SUFFIXES):
+                yield path
 
     def _write_manifest(
         self,

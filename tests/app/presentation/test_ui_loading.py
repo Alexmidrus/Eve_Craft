@@ -14,7 +14,11 @@ from eve_craft.platform.sde.presentation.dialog import SdeUpdateDialogController
 
 
 class _FakeSdeService:
+    def __init__(self) -> None:
+        self.call_count = 0
+
     def get_status(self, refresh_remote: bool = False) -> SdeStatus:
+        self.call_count += 1
         return SdeStatus(
             installed=None,
             latest=None,
@@ -35,19 +39,25 @@ class UiLoadingTests(unittest.TestCase):
 
         splash = load_ui_widget(config.paths.startup_splash_ui)
         dialog = load_dialog(config.paths.sde_update_dialog_ui)
+        manage_accounts = load_ui_widget(config.paths.manage_accounts_ui)
+        add_character = load_ui_widget(config.paths.add_character_ui)
 
         self.assertEqual("StartupSplash", splash.objectName())
         self.assertEqual("SdeUpdateDialog", dialog.objectName())
+        self.assertEqual("frmManageAccounts", manage_accounts.objectName())
+        self.assertEqual("frmAddCharacter", add_character.objectName())
 
     def test_sde_dialog_controller_keeps_dialog_as_top_level_window(self) -> None:
         config = load_app_config()
         parent = QWidget()
+        service = _FakeSdeService()
         controller = SdeUpdateDialogController(
             config=config,
-            sde_service=_FakeSdeService(),
+            sde_service=service,
             parent=parent,
         )
 
         self.assertTrue(controller.dialog.isWindow())
         self.assertEqual(parent, controller.dialog.parentWidget())
+        self.assertEqual(0, service.call_count)
 

@@ -46,7 +46,7 @@ class TypeImageCollectionSynchronizer:
 
         installed = self._repository.read_installed_version()
         latest = self._client.fetch_latest_version() if refresh_remote else None
-        available = installed is not None and self._repository.has_any_images()
+        available = installed is not None
         update_available = not available or bool(latest and not self._is_current(installed, latest))
         message = self._build_status_message(installed, latest, available, update_available)
 
@@ -62,7 +62,7 @@ class TypeImageCollectionSynchronizer:
         """Guarantee that the local Types image directory exists and is up to date."""
 
         installed = self._repository.read_installed_version()
-        available = installed is not None and self._repository.has_any_images()
+        available = installed is not None
         report_progress(
             OperationProgress(
                 stage="types_images_status",
@@ -147,7 +147,7 @@ class TypeImageCollectionSynchronizer:
 
         installed = self._repository.read_installed_version()
         latest = latest_override or self._client.fetch_latest_version()
-        available = installed is not None and self._repository.has_any_images()
+        available = installed is not None
 
         if self._is_current(installed, latest) and available and not force:
             message = f"IEC Types image set '{latest.release_name}' is already up to date."

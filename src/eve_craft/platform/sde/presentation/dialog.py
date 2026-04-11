@@ -6,7 +6,7 @@ from collections.abc import Callable
 
 from PySide6.QtCore import QObject, QThread, Qt, Slot
 from PySide6.QtGui import QCloseEvent, QIcon
-from PySide6.QtWidgets import QDialog, QLabel, QPlainTextEdit, QProgressBar, QPushButton, QWidget
+from PySide6.QtWidgets import QLabel, QPlainTextEdit, QProgressBar, QPushButton, QWidget
 
 from eve_craft.app.config import AppConfig
 from eve_craft.app.presentation.background_tasks import BackgroundTaskWorker
@@ -42,6 +42,8 @@ class SdeUpdateDialogController(QObject):
         self._thread: QThread | None = None
         self._worker: BackgroundTaskWorker[object] | None = None
         self._busy = False
+        self._cached_status_loaded = False
+        self._cached_status_loading = False
 
         if config.paths.icon_file.exists():
             self.dialog.setWindowIcon(QIcon(str(config.paths.icon_file)))
@@ -53,7 +55,6 @@ class SdeUpdateDialogController(QObject):
 
         self._progress_bar.setRange(0, 100)
         self._progress_bar.setValue(0)
-        self._load_cached_status()
 
     def show(self) -> None:
         """Show the dialog and bring it to the front of the current window stack."""
@@ -61,13 +62,33 @@ class SdeUpdateDialogController(QObject):
         self.dialog.show()
         self.dialog.raise_()
         self.dialog.activateWindow()
+        if not self._cached_status_loaded and not self._cached_status_loading:
+            self._load_cached_status()
 
     def _load_cached_status(self) -> None:
         """Populate the dialog from the locally cached status without network traffic."""
 
-        status = self._sde_service.get_status(refresh_remote=False)
-        self._apply_status(status)
-        self._append_log(status.message)
+        if self._cached_status_loading:
+            return
+
+        self._cached_status_loading = True
+        self._status_label.setText("Loading cached SDE status...")
+        self._progress_bar.setRange(0, 0)
+        self._check_button.setEnabled(False)
+        self._update_button.setEnabled(False)
+        self._close_button.setEnabled(True)
+        started = self._start_worker_task(
+            task=lambda _report: self._sde_service.get_status(refresh_remote=False),
+            success_handler=self._handle_cached_status_result,
+            failure_handler=self._handle_cached_status_failure,
+            finished_handler=self._cached_status_finished,
+        )
+        if not started:
+            self._cached_status_loading = False
+            self._progress_bar.setRange(0, 100)
+            self._progress_bar.setValue(0)
+            self._check_button.setEnabled(True)
+            self._update_button.setEnabled(True)
 
     def _check_status(self) -> None:
         """Refresh remote status information in a background thread."""
@@ -92,25 +113,20 @@ class SdeUpdateDialogController(QObject):
     ) -> None:
         """Start a worker thread for a long-running SDE operation."""
 
-        if self._busy:
+        if self._busy or self._cached_status_loading:
             return
 
         self._busy = True
         self._set_buttons_enabled(False)
-        self._thread = QThread()
-        self._worker = BackgroundTaskWorker(task)
-        self._worker.moveToThread(self._thread)
-
-        # All worker signals are marshalled back to the UI thread before touching widgets.
-        self._thread.started.connect(self._worker.run)
-        self._worker.progress_changed.connect(self._apply_progress, Qt.ConnectionType.QueuedConnection)
-        self._worker.succeeded.connect(success_handler, Qt.ConnectionType.QueuedConnection)
-        self._worker.failed.connect(self._handle_failure, Qt.ConnectionType.QueuedConnection)
-        self._worker.finished.connect(self._thread.quit)
-        self._worker.finished.connect(self._worker.deleteLater)
-        self._thread.finished.connect(self._task_finished)
-        self._thread.finished.connect(self._thread.deleteLater)
-        self._thread.start()
+        started = self._start_worker_task(
+            task=task,
+            success_handler=success_handler,
+            failure_handler=self._handle_failure,
+            finished_handler=self._task_finished,
+        )
+        if not started:
+            self._busy = False
+            self._set_buttons_enabled(True)
 
     @Slot()
     def _task_finished(self) -> None:
@@ -118,8 +134,33 @@ class SdeUpdateDialogController(QObject):
 
         self._busy = False
         self._set_buttons_enabled(True)
-        self._thread = None
-        self._worker = None
+
+    @Slot(object)
+    def _handle_cached_status_result(self, status: SdeStatus) -> None:
+        """Apply the initial cached status lookup without blocking dialog presentation."""
+
+        self._cached_status_loaded = True
+        self._progress_bar.setRange(0, 100)
+        self._progress_bar.setValue(0)
+        self._handle_status_result(status)
+
+    @Slot(str)
+    def _handle_cached_status_failure(self, message: str) -> None:
+        """Render an initial cached-status failure and allow later retries."""
+
+        self._progress_bar.setRange(0, 100)
+        self._progress_bar.setValue(0)
+        self._handle_failure(message)
+
+    @Slot()
+    def _cached_status_finished(self) -> None:
+        """Restore dialog controls after the initial cached-status load completes."""
+
+        self._cached_status_loading = False
+        if not self._busy:
+            self._check_button.setEnabled(True)
+            self._update_button.setEnabled(True)
+            self._close_button.setEnabled(True)
 
     @Slot(object)
     def _handle_status_result(self, status: SdeStatus) -> None:
@@ -184,6 +225,42 @@ class SdeUpdateDialogController(QObject):
         self._check_button.setEnabled(enabled)
         self._update_button.setEnabled(enabled)
         self._close_button.setEnabled(enabled)
+
+    def _start_worker_task(
+        self,
+        task: Callable[[Callable[[OperationProgress], None]], object],
+        success_handler: Callable[[object], None],
+        failure_handler: Callable[[str], None],
+        finished_handler: Callable[[], None],
+    ) -> bool:
+        """Start a worker thread when the dialog does not already own one."""
+
+        if self._thread is not None or self._worker is not None:
+            return False
+
+        self._thread = QThread()
+        self._worker = BackgroundTaskWorker(task)
+        self._worker.moveToThread(self._thread)
+
+        # All worker signals are marshalled back to the UI thread before touching widgets.
+        self._thread.started.connect(self._worker.run)
+        self._worker.progress_changed.connect(self._apply_progress, Qt.ConnectionType.QueuedConnection)
+        self._worker.succeeded.connect(success_handler, Qt.ConnectionType.QueuedConnection)
+        self._worker.failed.connect(failure_handler, Qt.ConnectionType.QueuedConnection)
+        self._worker.finished.connect(self._thread.quit)
+        self._worker.finished.connect(self._worker.deleteLater)
+        self._thread.finished.connect(finished_handler)
+        self._thread.finished.connect(self._clear_worker_state)
+        self._thread.finished.connect(self._thread.deleteLater)
+        self._thread.start()
+        return True
+
+    @Slot()
+    def _clear_worker_state(self) -> None:
+        """Drop references to the current worker thread after it finishes."""
+
+        self._thread = None
+        self._worker = None
 
     def _close_event(self, event: QCloseEvent) -> None:
         """Prevent closing the dialog while a background operation is still active."""

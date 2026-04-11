@@ -3,6 +3,7 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from eve_craft.platform.sde.domain.models import TypeImageRemoteVersion
 from eve_craft.platform.sde.infrastructure.types_images_repository import TypeImageCollectionRepository
@@ -99,3 +100,13 @@ class TypeImageCollectionRepositoryTests(unittest.TestCase):
 
             self.assertIsNone(repository.read_installed_version())
             self.assertTrue(repository.has_any_images())
+
+    def test_has_any_images_uses_fast_path_without_full_count(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target_dir = Path(temp_dir) / "resources" / "types"
+            target_dir.mkdir(parents=True)
+            (target_dir / "34_32.png").write_bytes(b"png")
+            repository = TypeImageCollectionRepository(target_dir)
+
+            with patch.object(repository, "_count_image_files", side_effect=AssertionError("full count was used")):
+                self.assertTrue(repository.has_any_images())

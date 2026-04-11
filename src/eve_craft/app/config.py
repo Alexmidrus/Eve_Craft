@@ -21,6 +21,8 @@ class AppPaths:
     main_window_ui: Path
     startup_splash_ui: Path
     sde_update_dialog_ui: Path
+    manage_accounts_ui: Path
+    add_character_ui: Path
     icon_file: Path
     logs_dir: Path
     app_database_path: Path
@@ -64,6 +66,8 @@ def load_app_config() -> AppConfig:
         main_window_ui=root / "Ui_design" / "MainWindow.ui",
         startup_splash_ui=root / "Ui_design" / "StartupSplash.ui",
         sde_update_dialog_ui=root / "Ui_design" / "SdeUpdateDialog.ui",
+        manage_accounts_ui=root / "Ui_design" / "ManageAccounts.ui",
+        add_character_ui=root / "Ui_design" / "AddCharacter.ui",
         icon_file=root / "Ui_design" / "industry.svg",
         logs_dir=logs_dir,
         app_database_path=databases_dir / "app.sqlite3",
