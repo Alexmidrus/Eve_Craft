@@ -16,7 +16,7 @@ class MainWindowShell:
         self._config = config
         self._container = container
         self.window = load_main_window(config.paths.main_window_ui)
-        self._tab_widget = self._find_required_tab_widget("tabWidget")
+        self._tab_widget = self._find_required_tab_widget("tabMain")
         self._navigator = MainTabNavigator(self._tab_widget)
         self._character_management_window: ManageAccountsWindowController | None = None
         self._sde_dialog: SdeUpdateDialogController | None = None
@@ -63,6 +63,8 @@ class MainWindowShell:
         if self._character_management_window is None:
             self._character_management_window = ManageAccountsWindowController(
                 config=self._config,
+                auth_service=self._container.auth,
+                character_service=self._container.characters,
                 parent=self.window,
             )
 

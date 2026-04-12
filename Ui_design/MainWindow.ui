@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1052</width>
-    <height>600</height>
+    <width>885</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="font">
@@ -24,7 +24,7 @@
      <family>Segoe UI</family>
     </font>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -41,39 +41,9 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="QTabWidget" name="tabMain">
       <property name="styleSheet">
-       <string notr="true">/* Стили для самих вкладок */
-QTabBar::tab {
-    background-color: #f0f0f0;
-    color: #333333;
-    font-family: &quot;Segoe UI&quot;, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 5px 5px; /* Отступы внутри вкладки */
-    min-width: 10px;
-    border: 1px solid #cccccc;
-    border-top-left-radius: 2px; /* Скругление углов */
-    border-bottom-left-radius: 2px;
-}
-
-/* Стиль при наведении мыши */
-QTabBar::tab:hover {
-    background-color: #e0e0e0;
-}
-
-/* Стиль активной (выбранной) вкладки */
-QTabBar::tab:selected {
-    background-color: #ffffff;
-    color: #0078d7; /* Синий текст */
-    border-right-color: #ffffff; /* Убираем правую рамку, чтобы сливалось с фоном */
-}
-
-/* Фон области с контентом */
-QTabWidget::pane {
-    border: 1px solid #cccccc;
-    background-color: #ffffff;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="tabPosition">
        <enum>QTabWidget::TabPosition::West</enum>
@@ -109,8 +79,530 @@ QTabWidget::pane {
        <attribute name="title">
         <string>Industry</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QTabWidget" name="tabIndustry">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tabBluepeints">
+           <attribute name="title">
+            <string>Blueprints</string>
+           </attribute>
+           <widget class="QWidget" name="">
+            <property name="geometry">
+             <rect>
+              <x>9</x>
+              <y>9</y>
+              <width>515</width>
+              <height>256</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="lblBPSelectBlueprint">
+                   <property name="text">
+                    <string>Selected Blueprint or Reaction</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cmbBPBlueprintSelection">
+                   <property name="editable">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="gbBPBlueprintType">
+                   <property name="title">
+                    <string>Blueprint Type</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_3">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <layout class="QGridLayout" name="gridLayout">
+                      <property name="leftMargin">
+                       <number>2</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>2</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>2</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>2</number>
+                      </property>
+                      <property name="spacing">
+                       <number>2</number>
+                      </property>
+                      <item row="1" column="1">
+                       <widget class="QRadioButton" name="rbtnBPAmmoChargeBlueprints">
+                        <property name="text">
+                         <string>Ammo/Charges</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="4" column="1">
+                       <widget class="QRadioButton" name="rbtnBPMiscBlueprints">
+                        <property name="text">
+                         <string>Misc.</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="2">
+                       <widget class="QRadioButton" name="rbtnBPFavoriteBlueprints">
+                        <property name="text">
+                         <string>Favorites</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="2" column="1">
+                       <widget class="QRadioButton" name="rbtnBPRigBlueprints">
+                        <property name="text">
+                         <string>Rigs</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="4" column="3">
+                       <widget class="QCheckBox" name="chkBPLPBPOs">
+                        <property name="text">
+                         <string>LP Store BPOs</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="1" column="3">
+                       <widget class="QRadioButton" name="rbtnBPStructureRigsBlueprints">
+                        <property name="text">
+                         <string>Structure Rigs</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="4" column="0">
+                       <widget class="QRadioButton" name="rbtnBPReactionsBlueprints">
+                        <property name="text">
+                         <string>Reactions</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="1" column="0">
+                       <widget class="QRadioButton" name="rbtnBPShipBlueprints">
+                        <property name="text">
+                         <string>Ships</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="1" column="2">
+                       <widget class="QRadioButton" name="rbtnBPModuleBlueprints">
+                        <property name="text">
+                         <string>Modules</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="2" column="2">
+                       <widget class="QRadioButton" name="rbtnBPSubsystemBlueprints">
+                        <property name="text">
+                         <string>Subsystems</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="3" column="2">
+                       <widget class="QRadioButton" name="rbtnBPBoosterBlueprints">
+                        <property name="text">
+                         <string>Boosters</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="3" column="1">
+                       <widget class="QRadioButton" name="rbtnBPComponentBlueprints">
+                        <property name="text">
+                         <string>Components</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="3" column="0">
+                       <widget class="QRadioButton" name="rbtnBPDeployableBlueprints">
+                        <property name="text">
+                         <string>Deployable</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="2" column="0">
+                       <widget class="QRadioButton" name="rbtnBPDroneBlueprints">
+                        <property name="text">
+                         <string>Drones</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="4" column="2">
+                       <widget class="QRadioButton" name="rbtnBPCelestialsBlueprints">
+                        <property name="text">
+                         <string>Celestials</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="2" column="3">
+                       <widget class="QRadioButton" name="rbtnBPStructureModulesBlueprints">
+                        <property name="text">
+                         <string>Structure Modules</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="0">
+                       <widget class="QRadioButton" name="rbtnBPAllBlueprints">
+                        <property name="text">
+                         <string>All</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="1">
+                       <widget class="QRadioButton" name="rbtnBPOwnedBlueprints">
+                        <property name="text">
+                         <string>Owned</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="3">
+                       <widget class="QRadioButton" name="rbtnBPStructureBlueprints">
+                        <property name="text">
+                         <string>Structures</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="3" column="3">
+                       <widget class="QCheckBox" name="chkBPMarketBPOs">
+                        <property name="text">
+                         <string>Market BPOs</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <item>
+                    <widget class="QPushButton" name="btnBPAddBPMatstoShoppingList">
+                     <property name="minimumSize">
+                      <size>
+                       <width>90</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::LayoutDirection::LeftToRight</enum>
+                     </property>
+                     <property name="autoFillBackground">
+                      <bool>false</bool>
+                     </property>
+                     <property name="text">
+                      <string>Add to 
+Shopping List</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="btnBPCopyMatstoClip">
+                     <property name="minimumSize">
+                      <size>
+                       <width>90</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>Add to 
+Projects</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QGridLayout" name="gridLayout_2">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QRadioButton" name="rbtnBPComponentCopy">
+                     <property name="text">
+                      <string>Components</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QRadioButton" name="rbtnBPRawmatCopy">
+                     <property name="text">
+                      <string>Raw Materials</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QCheckBox" name="chkBPSimpleCopy">
+                     <property name="text">
+                      <string>Simple Copy</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QRadioButton" name="rbtnBPCopyInvREMats">
+                     <property name="text">
+                      <string>Invention/RE</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <property name="spacing">
+                <number>10</number>
+               </property>
+               <item>
+                <widget class="QPushButton" name="btnBPListView">
+                 <property name="minimumSize">
+                  <size>
+                   <width>94</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>94</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Blueprint Viewer</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QGroupBox" name="gbFilters">
+                   <property name="title">
+                    <string>Size Limit</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_4" rowstretch="0" columnstretch="0" rowminimumheight="0" columnminimumwidth="0">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="horizontalSpacing">
+                     <number>1</number>
+                    </property>
+                    <property name="verticalSpacing">
+                     <number>0</number>
+                    </property>
+                    <item row="0" column="0">
+                     <layout class="QGridLayout" name="gridLayout_3">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <item row="0" column="0">
+                       <widget class="QCheckBox" name="chkBPSmall">
+                        <property name="text">
+                         <string>S</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="1">
+                       <widget class="QCheckBox" name="chkBPMedium">
+                        <property name="text">
+                         <string>M</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="1" column="0">
+                       <widget class="QCheckBox" name="chkBPLarge">
+                        <property name="text">
+                         <string>L</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="1" column="1">
+                       <widget class="QCheckBox" name="chkBPXL">
+                        <property name="text">
+                         <string>XL</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="gbBPBlueprintTech">
+                   <property name="title">
+                    <string>Tech</string>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_4">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_3">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QCheckBox" name="chkBPT1">
+                        <property name="text">
+                         <string>Tech 1</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QCheckBox" name="chkBPT2">
+                        <property name="text">
+                         <string>Tech 2</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QCheckBox" name="chkBPT3">
+                        <property name="text">
+                         <string>Tech 3</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QCheckBox" name="chkBPStoryline">
+                        <property name="text">
+                         <string>Storyline</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QCheckBox" name="chkBPNavyFaction">
+                        <property name="text">
+                         <string>Navy</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QCheckBox" name="chkBPPirateFaction">
+                        <property name="text">
+                         <string>Pirate</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="tabUpdatePrice">
+           <attribute name="title">
+            <string>Update price</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="tabManufacturing">
+           <attribute name="title">
+            <string>Manufacturing List</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
-      <widget class="QWidget" name="Market">
+      <widget class="QWidget" name="tabMarket">
        <attribute name="title">
         <string>Market</string>
        </attribute>
@@ -124,7 +616,7 @@ QTabWidget::pane {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1052</width>
+     <width>885</width>
      <height>22</height>
     </rect>
    </property>

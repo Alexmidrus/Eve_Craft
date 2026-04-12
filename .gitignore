@@ -5,6 +5,9 @@ venv/
 venv*/
 env/
 env*/
+.env
+.env.*
+!.env.example
 .python-version
 
 runtime/

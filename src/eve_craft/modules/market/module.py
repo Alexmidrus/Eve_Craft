@@ -9,6 +9,6 @@ def build_module() -> ModuleDescriptor:
         display_name="Market",
         kind="feature",
         root_package="eve_craft.modules.market",
-        tab_object_name="Market",
+        tab_object_name="tabMarket",
     )
 

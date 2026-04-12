@@ -29,10 +29,10 @@ def build_container(config: AppConfig, module_registry: ModuleRegistry) -> AppCo
     database = DatabaseManager(config.paths.app_database_path)
     app_database = AppDatabaseService(database, application_name=config.application_name)
     settings = SettingsService(config.paths.settings_path)
-    auth = AuthService()
-    esi = EsiService()
+    auth = AuthService(config=config, settings=settings, database=database)
+    esi = EsiService(config=config, database=database, auth=auth, settings=settings)
     sde = SdeService(config)
-    characters = CharacterService()
+    characters = CharacterService(auth=auth, esi=esi, settings=settings, database=database)
 
     return AppContainer(
         config=config,

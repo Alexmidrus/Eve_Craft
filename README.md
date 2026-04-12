@@ -52,6 +52,26 @@ python main.py
 
 При первом старте приложение создаст папку `runtime/`, локальные базы SQLite и ресурсный каталог. Если SDE-ресурсы еще не подготовлены, стартовый сценарий сможет инициализировать или обновить и базу SDE, и локальный набор `IEC Types`-изображений.
 
+## `.env` для ESI SSO
+
+Для dev-режима приложение автоматически загружает переменные окружения из файла `.env` в корне проекта до построения конфигурации приложения.
+
+Поддерживаемые ключи для ESI SSO:
+
+- `EVE_CRAFT_ESI_CLIENT_ID`
+- `EVE_CRAFT_ESI_CLIENT_SECRET`
+- `EVE_CRAFT_ESI_CALLBACK_URL`
+
+Шаблон лежит в `.env.example`. Для вашего текущего callback используйте:
+
+```dotenv
+EVE_CRAFT_ESI_CLIENT_ID=your_client_id
+EVE_CRAFT_ESI_CLIENT_SECRET=your_client_secret
+EVE_CRAFT_ESI_CALLBACK_URL=http://127.0.0.1:8080/callback
+```
+
+Если те же переменные уже заданы в системном окружении, они имеют приоритет над `.env`.
+
 ## Запуск тестов
 
 Полный прогон тестов:
@@ -69,6 +89,7 @@ py -3.13 -m unittest tests.platform.sde.test_synchronizer -v
 ## Документация
 
 - Описание работы модуля SDE: [docs/sde.md](docs/sde.md)
+- Проектирование модуля ESI: [docs/esi.md](docs/esi.md)
 - Инструкция по виртуальному окружению: [docs/virtualenv.md](docs/virtualenv.md)
 
 ## Виртуальное окружение
